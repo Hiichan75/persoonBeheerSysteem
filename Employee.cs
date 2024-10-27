@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,9 @@ namespace personBeheerSysteem.Models
     public class Employee
     {
         public int EmployeeID { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
         public string ContactInfo { get; set; }
         public decimal Salary { get; set; }

@@ -1,12 +1,110 @@
-﻿<Window x:Class="persoonBeheerSysteem.MainWindow"
+﻿<Window x:Class="personBeheerSysteem.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:persoonBeheerSysteem"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:local="clr-namespace:persoonBeheerSysteem.Resources"
+        Title="HR Management System" Height="600" Width="800">
     <Grid>
+        <TabControl>
+            <!-- Employee Tab -->
+            <TabItem Header="{x:Static local:Strings.EmployeeTabHeader}">
+                <StackPanel Margin="10">
+                    <!-- Employee Filter TextBox -->
+                    <TextBox x:Name="EmployeeFilterTextBox"
+                             Text="{x:Static local:Strings.FilterByNamePlaceholder}"
+                             Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus"
+                             LostFocus="TextBox_LostFocus"
+                             TextChanged="EmployeeFilterTextBox_TextChanged" />
 
+                    <!-- Employee DataGrid -->
+                    <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="EmployeeDataGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" Width="50" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="Contact Info" Binding="{Binding ContactInfo}" Width="*" />
+                            <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="80" />
+                            <DataGridTextColumn Header="Department ID" Binding="{Binding DepartmentID}" Width="120" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Employee Input Fields -->
+                    <TextBox x:Name="EmployeeNameTextBox" Text="{x:Static local:Strings.EmployeeNamePlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    <TextBox x:Name="EmployeeContactTextBox" Text="{x:Static local:Strings.EmployeeContactPlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    <TextBox x:Name="EmployeeSalaryTextBox" Text="{x:Static local:Strings.EmployeeSalaryPlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    <ComboBox x:Name="EmployeeDepartmentComboBox" Width="200" Margin="0,5"
+                              DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentID" />
+
+                    <!-- Employee Actions -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0" Width="404">
+                        <Button Content="{x:Static local:Strings.AddEmployeeButtonText}" Click="AddEmployeeButton_Click" Width="120" Margin="5" />
+                        <Button Content="{x:Static local:Strings.EditEmployeeButtonText}" Click="EditEmployeeButton_Click" Width="120" Margin="5" />
+                        <Button Content="{x:Static local:Strings.DeleteEmployeeButtonText}" Click="DeleteEmployeeButton_Click" Width="120" Margin="5" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Department Tab -->
+            <TabItem Header="{x:Static local:Strings.DepartmentTabHeader}">
+                <StackPanel Margin="10">
+                    <!-- Department Filter TextBox -->
+                    <TextBox x:Name="DepartmentFilterTextBox" Text="{x:Static local:Strings.FilterByDepartmentPlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" TextChanged="DepartmentFilterTextBox_TextChanged" />
+
+                    <!-- Department DataGrid -->
+                    <DataGrid x:Name="DepartmentDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding DepartmentID}" Width="50" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding DepartmentName}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Department Input Field -->
+                    <TextBox x:Name="DepartmentNameTextBox" Text="{x:Static local:Strings.DepartmentNamePlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+
+                    <!-- Department Actions -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <Button Content="{x:Static local:Strings.AddDepartmentButtonText}" Click="AddDepartmentButton_Click" Width="140" Margin="5" />
+                        <Button Content="{x:Static local:Strings.EditDepartmentButtonText}" Click="EditDepartmentButton_Click" Width="140" Margin="5" />
+                        <Button Content="{x:Static local:Strings.DeleteDepartmentButtonText}" Click="DeleteDepartmentButton_Click" Width="140" Margin="5" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Absence Tab -->
+            <TabItem Header="{x:Static local:Strings.AbsenceTabHeader}">
+                <StackPanel Margin="10">
+                    <!-- Absence Filter DatePicker -->
+                    <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" SelectedDateChanged="AbsenceFilterDatePicker_SelectedDateChanged" />
+
+                    <!-- Absence DataGrid -->
+                    <DataGrid x:Name="AbsenceDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding AbsenceID}" Width="50" />
+                            <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="80" />
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="100" />
+                            <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Absence Input Fields -->
+                    <ComboBox x:Name="AbsenceEmployeeComboBox" Width="200" Margin="0,5"
+                              DisplayMemberPath="Name" SelectedValuePath="EmployeeID" SelectionChanged="AbsenceEmployeeComboBox_SelectionChanged" />
+                    <DatePicker x:Name="AbsenceDatePicker" Margin="0,5" />
+                    <TextBox x:Name="AbsenceReasonTextBox" Text="{x:Static local:Strings.AbsenceReasonPlaceholder}" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+
+                    <!-- Absence Actions -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                        <Button Content="{x:Static local:Strings.AddAbsenceButtonText}" Click="AddAbsenceButton_Click" Width="120" Margin="5" />
+                        <Button Content="{x:Static local:Strings.EditAbsenceButtonText}" Click="EditAbsenceButton_Click" Width="120" Margin="5" />
+                        <Button Content="{x:Static local:Strings.DeleteAbsenceButtonText}" Click="DeleteAbsenceButton_Click" Width="120" Margin="5" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
