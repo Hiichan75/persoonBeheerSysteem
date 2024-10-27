@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using personBeheerSysteem.Data;
 using personBeheerSysteem.Models;
-using persoonBeheerSysteem;
 using System;
 using System.Linq;
 using System.Windows;
@@ -19,62 +18,33 @@ namespace personBeheerSysteem
         public MainWindow()
         {
             InitializeComponent();
+            SetUIText(); // No resources, setting literal text
 
-            // Set all UI texts from resources
-            SetUIText();
-
-            // Create the DbContextOptions
             var optionsBuilder = new DbContextOptionsBuilder<PersonenDbContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;",
-                sqlOptions => sqlOptions.EnableRetryOnFailure());
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;");
 
-            // Initialize the DbContext with options
             var dbContext = new PersonenDbContext(optionsBuilder.Options);
-
-            // Instantiate repositories with the dbContext
             _employeeRepo = new EmployeeRepository(dbContext);
             _departmentRepo = new DepartmentRepository(dbContext);
             _absenceRepo = new AbsenceRepository(dbContext);
 
-            // Load initial data after repositories are initialized
             LoadData();
             LoadComboBoxData();
-
-            // Attach event handlers after everything is fully initialized
-            EmployeeFilterTextBox.TextChanged += EmployeeFilterTextBox_TextChanged;
-            DepartmentFilterTextBox.TextChanged += DepartmentFilterTextBox_TextChanged;
-            AbsenceFilterDatePicker.SelectedDateChanged += AbsenceFilterDatePicker_SelectedDateChanged;
         }
+
         private void SetUIText()
         {
-            // Set tab headers
-            EmployeeTab.Header = persoonBeheerSysteem.Resources.Strings.EmployeeTabHeader;
-            DepartmentTab.Header = persoonBeheerSysteem.Resources.Strings.DepartmentTabHeader;
-            AbsenceTab.Header = persoonBeheerSysteem.Resources.Strings.AbsenceTabHeader;
+            // No resource-based text, using direct strings
+            
 
-            // Set button texts
-            AddEmployeeButton.Content = persoonBeheerSysteem.Resources.Strings.AddEmployeeButtonText;
-            EditEmployeeButton.Content = persoonBeheerSysteem.Resources.Strings.EditEmployeeButtonText;
-            DeleteEmployeeButton.Content = persoonBeheerSysteem.Resources.Strings.DeleteEmployeeButtonText;
+            EmployeeNameTextBox.Text = "Employee Name";
+            EmployeeContactTextBox.Text = "Contact Info";
+            EmployeeSalaryTextBox.Text = "Salary";
+            DepartmentNameTextBox.Text = "Department Name";
+            AbsenceReasonTextBox.Text = "Reason for Absence";
 
-            AddDepartmentButton.Content = persoonBeheerSysteem.Resources.Strings.AddDepartmentButtonText;
-            EditDepartmentButton.Content = persoonBeheerSysteem.Resources.Strings.EditDepartmentButtonText;
-            DeleteDepartmentButton.Content = persoonBeheerSysteem.Resources.Strings.DeleteDepartmentButtonText;
-
-            AddAbsenceButton.Content = persoonBeheerSysteem.Resources.Strings.AddAbsenceButtonText;
-            EditAbsenceButton.Content = persoonBeheerSysteem.Resources.Strings.EditAbsenceButtonText;
-            DeleteAbsenceButton.Content = persoonBeheerSysteem.Resources.Strings.DeleteAbsenceButtonText;
-
-            // Set placeholders for TextBox controls
-            EmployeeNameTextBox.Text = persoonBeheerSysteem.Resources.Strings.EmployeeNamePlaceholder;
-            EmployeeContactTextBox.Text = persoonBeheerSysteem.Resources.Strings.EmployeeContactPlaceholder;
-            EmployeeSalaryTextBox.Text = persoonBeheerSysteem.Resources.Strings.EmployeeSalaryPlaceholder;
-            DepartmentNameTextBox.Text = persoonBeheerSysteem.Resources.Strings.DepartmentNamePlaceholder;
-            AbsenceReasonTextBox.Text = persoonBeheerSysteem.Resources.Strings.AbsenceReasonPlaceholder;
-
-            // Set filter TextBox placeholders
-            EmployeeFilterTextBox.Text = persoonBeheerSysteem.Resources.Strings.FilterByNamePlaceholder;
-            DepartmentFilterTextBox.Text = persoonBeheerSysteem.Resources.Strings.FilterByDepartmentPlaceholder;
+            EmployeeFilterTextBox.Text = "Filter by Name";
+            DepartmentFilterTextBox.Text = "Filter by Department";
         }
         private void EmployeeFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -355,6 +325,11 @@ namespace personBeheerSysteem
         }
 
         private void EmployeeDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void AbsenceDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

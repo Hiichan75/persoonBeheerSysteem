@@ -20,5 +20,7 @@ namespace personBeheerSysteem.Models
 
         public Department Department { get; set; }
         public List<Absence> Absences { get; set; }
+
+        public string DepartmentName => Department?.DepartmentName ?? "Unknown";
     }
 }
