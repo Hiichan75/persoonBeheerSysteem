@@ -22,7 +22,7 @@ namespace persoonBeheerSysteem.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace persoonBeheerSysteem.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("persoonBeheerSysteem.Resources.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace persoonBeheerSysteem.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,27 +61,18 @@ namespace persoonBeheerSysteem.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reason for Absence.
-        /// </summary>
-        internal static string AbsenceReasonPlaceholder {
-            get {
-                return ResourceManager.GetString("AbsenceReasonPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Absences.
         /// </summary>
-        internal static string AbsenceTabHeader_ {
+        public static string AbsenceTabHeader {
             get {
-                return ResourceManager.GetString("AbsenceTabHeader ", resourceCulture);
+                return ResourceManager.GetString("AbsenceTabHeader", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add Absence.
         /// </summary>
-        internal static string AddAbsenceButtonText {
+        public static string AddAbsenceButtonText {
             get {
                 return ResourceManager.GetString("AddAbsenceButtonText", resourceCulture);
             }
@@ -90,26 +81,34 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Add Department.
         /// </summary>
-        internal static string AddDepartmentButtonText {
+        public static string AddDepartmentButtonText {
             get {
                 return ResourceManager.GetString("AddDepartmentButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Employee
-        ///.
+        ///   Looks up a localized string similar to Add Employee.
         /// </summary>
-        internal static string AddEmployeeButtonText {
+        public static string AddEmployeeButtonText {
             get {
                 return ResourceManager.GetString("AddEmployeeButtonText", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact Info.
+        /// </summary>
+        public static string ContactInfoPlaceholder {
+            get {
+                return ResourceManager.GetString("ContactInfoPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Absence.
         /// </summary>
-        internal static string DeleteAbsenceButtonText {
+        public static string DeleteAbsenceButtonText {
             get {
                 return ResourceManager.GetString("DeleteAbsenceButtonText", resourceCulture);
             }
@@ -118,17 +117,16 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Delete Department.
         /// </summary>
-        internal static string DeleteDepartmentButtonText {
+        public static string DeleteDepartmentButtonText {
             get {
                 return ResourceManager.GetString("DeleteDepartmentButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Employee
-        ///.
+        ///   Looks up a localized string similar to Delete Employee.
         /// </summary>
-        internal static string DeleteEmployeeButtonText {
+        public static string DeleteEmployeeButtonText {
             get {
                 return ResourceManager.GetString("DeleteEmployeeButtonText", resourceCulture);
             }
@@ -137,7 +135,7 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Department Name.
         /// </summary>
-        internal static string DepartmentNamePlaceholder {
+        public static string DepartmentNamePlaceholder {
             get {
                 return ResourceManager.GetString("DepartmentNamePlaceholder", resourceCulture);
             }
@@ -146,7 +144,7 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Departments.
         /// </summary>
-        internal static string DepartmentTabHeader {
+        public static string DepartmentTabHeader {
             get {
                 return ResourceManager.GetString("DepartmentTabHeader", resourceCulture);
             }
@@ -155,7 +153,7 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Edit Absence.
         /// </summary>
-        internal static string EditAbsenceButtonText {
+        public static string EditAbsenceButtonText {
             get {
                 return ResourceManager.GetString("EditAbsenceButtonText", resourceCulture);
             }
@@ -164,74 +162,81 @@ namespace persoonBeheerSysteem.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Edit Department.
         /// </summary>
-        internal static string EditDepartmentButtonText {
+        public static string EditDepartmentButtonText {
             get {
                 return ResourceManager.GetString("EditDepartmentButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Employee
-        ///.
+        ///   Looks up a localized string similar to Edit Employee.
         /// </summary>
-        internal static string EditEmployeeButtonText {
+        public static string EditEmployeeButtonText {
             get {
                 return ResourceManager.GetString("EditEmployeeButtonText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contact Info.
-        /// </summary>
-        internal static string EmployeeContactPlaceholder {
-            get {
-                return ResourceManager.GetString("EmployeeContactPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Employee Name.
         /// </summary>
-        internal static string EmployeeNamePlaceholder {
+        public static string EmployeeNamePlaceholder {
             get {
                 return ResourceManager.GetString("EmployeeNamePlaceholder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Salary.
-        /// </summary>
-        internal static string EmployeeSalaryPlaceholder {
-            get {
-                return ResourceManager.GetString("EmployeeSalaryPlaceholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Employees.
         /// </summary>
-        internal static string EmployeeTabHeader {
+        public static string EmployeeTabHeader {
             get {
                 return ResourceManager.GetString("EmployeeTabHeader", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter by Department Name.
+        ///   Looks up a localized string similar to Filter by Department.
         /// </summary>
-        internal static string FilterByDepartmentPlaceholder {
+        public static string FilterByDepartmentPlaceholder {
             get {
                 return ResourceManager.GetString("FilterByDepartmentPlaceholder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter by Name
-        ///.
+        ///   Looks up a localized string similar to Filter by Name.
         /// </summary>
-        internal static string FilterByNamePlaceholder {
+        public static string FilterByNamePlaceholder {
             get {
                 return ResourceManager.GetString("FilterByNamePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HR Management System.
+        /// </summary>
+        public static string HRManagementSystemTitle {
+            get {
+                return ResourceManager.GetString("HRManagementSystemTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason for Absence.
+        /// </summary>
+        public static string ReasonForAbsencePlaceholder {
+            get {
+                return ResourceManager.GetString("ReasonForAbsencePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salary.
+        /// </summary>
+        public static string SalaryPlaceholder {
+            get {
+                return ResourceManager.GetString("SalaryPlaceholder", resourceCulture);
             }
         }
     }

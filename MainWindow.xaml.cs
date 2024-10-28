@@ -6,6 +6,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using persoonBeheerSysteem;
+
 
 namespace personBeheerSysteem
 {
@@ -18,8 +20,7 @@ namespace personBeheerSysteem
         public MainWindow()
         {
             InitializeComponent();
-            SetUIText(); // No resources, setting literal text
-
+            
             var optionsBuilder = new DbContextOptionsBuilder<PersonenDbContext>();
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;");
 
@@ -32,20 +33,7 @@ namespace personBeheerSysteem
             LoadComboBoxData();
         }
 
-        private void SetUIText()
-        {
-            // No resource-based text, using direct strings
-            
 
-            EmployeeNameTextBox.Text = "Employee Name";
-            EmployeeContactTextBox.Text = "Contact Info";
-            EmployeeSalaryTextBox.Text = "Salary";
-            DepartmentNameTextBox.Text = "Department Name";
-            AbsenceReasonTextBox.Text = "Reason for Absence";
-
-            EmployeeFilterTextBox.Text = "Filter by Name";
-            DepartmentFilterTextBox.Text = "Filter by Department";
-        }
         private void EmployeeFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (_employeeRepo == null) return; // Ensure _employeeRepo is initialized
