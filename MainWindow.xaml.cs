@@ -37,9 +37,6 @@ namespace personBeheerSysteem
             DepartmentTab.DataContext = departmentViewModel;
             AbsenceTab.DataContext = absenceViewModel;
 
-            DataContext = _employeeViewModel;
-
-
             Refresh(); // Initial load of data for all controls
         }
 
@@ -177,9 +174,35 @@ namespace personBeheerSysteem
             {
                 try
                 {
+                    if (EmployeeDepartmentComboBox.SelectedValue == null)
+                    {
+                        MessageBox.Show("Please select a department for the employee.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Ensure the Salary field is not empty and contains a valid decimal value.
+                    if (string.IsNullOrWhiteSpace(EmployeeSalaryTextBox.Text) || !decimal.TryParse(EmployeeSalaryTextBox.Text, out decimal salary))
+                    {
+                        MessageBox.Show("Please enter a valid salary for the employee (numeric value).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    // Check if employee name and contact info are also provided.
+                    if (string.IsNullOrWhiteSpace(EmployeeNameTextBox.Text))
+                    {
+                        MessageBox.Show("Please enter a name for the employee.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(EmployeeContactTextBox.Text))
+                    {
+                        MessageBox.Show("Please enter contact information for the employee.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     selectedEmployee.Name = EmployeeNameTextBox.Text;
                     selectedEmployee.ContactInfo = EmployeeContactTextBox.Text;
-                    selectedEmployee.Salary = decimal.Parse(EmployeeSalaryTextBox.Text);
+                    selectedEmployee.Salary = salary;
                     selectedEmployee.DepartmentID = (int)EmployeeDepartmentComboBox.SelectedValue;
 
                     _employeeRepo.UpdateEmployee(selectedEmployee);
@@ -187,14 +210,15 @@ namespace personBeheerSysteem
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error editing employee: {ex.Message}");
+                    MessageBox.Show($"Error editing employee: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please select an employee to edit.");
+                MessageBox.Show("Please select an employee to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
 
         private void DeleteEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -316,8 +340,26 @@ namespace personBeheerSysteem
             {
                 try
                 {
+                    if (AbsenceEmployeeComboBox.SelectedValue == null)
+                    {
+                        MessageBox.Show("Please select an employee.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (AbsenceDatePicker.SelectedDate == null)
+                    {
+                        MessageBox.Show("Please select a date for the absence.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(AbsenceReasonTextBox.Text))
+                    {
+                        MessageBox.Show("Please enter a reason for the absence.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     selectedAbsence.EmployeeID = (int)AbsenceEmployeeComboBox.SelectedValue;
-                    selectedAbsence.Date = AbsenceDatePicker.SelectedDate.GetValueOrDefault();
+                    selectedAbsence.Date = AbsenceDatePicker.SelectedDate.Value;
                     selectedAbsence.Reason = AbsenceReasonTextBox.Text;
 
                     _absenceRepo.UpdateAbsence(selectedAbsence);
@@ -325,12 +367,12 @@ namespace personBeheerSysteem
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error editing absence: {ex.Message}");
+                    MessageBox.Show($"Error editing absence: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Please select an absence to edit.");
+                MessageBox.Show("Please select an absence to edit.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

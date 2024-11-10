@@ -97,13 +97,15 @@
             <TabItem Header="Departments" x:Name="DepartmentTab">
                 <StackPanel Margin="10">
                     <!-- Department Filter TextBox -->
-                    <TextBox x:Name="DepartmentFilterTextBox" 
+                    <TextBox x:Name="DepartmentFilterTextBox"  
                              Text="Filter by Department" 
                              Foreground="Gray" Margin="0,5"
                              GotFocus="TextBox_GotFocus" 
                              LostFocus="TextBox_LostFocus" 
                              TextChanged="DepartmentFilterTextBox_TextChanged"
-                             ToolTip="Filter departments by name." />
+                             ToolTip="Filter departments by name."/>
+                 
+
 
                     <!-- Department DataGrid with Context Menu for Actions -->
                     <DataGrid x:Name="DepartmentDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" 
