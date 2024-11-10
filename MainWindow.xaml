@@ -3,107 +3,177 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:persoonBeheerSysteem"
         xmlns:res="clr-namespace:persoonBeheerSysteem.Resources"
-        Title="{x:Static res:Strings.HRManagementSystemTitle}" Height="600" Width="800">
+        Title="HR Management System" Height="600" Width="800">
+
     <Grid>
         <TabControl>
             <!-- Employee Tab -->
-            <TabItem Header="{x:Static res:Strings.EmployeeTabHeader}">
+            <TabItem Header="Employees" x:Name="EmployeeTab">
                 <StackPanel Margin="10">
                     <!-- Single Refresh Button for All Data -->
-                    <Button Content="Refresh" Click="RefreshButton_Click" Width="150" Margin="5" />
+                    <Button Content="Refresh" Click="RefreshButton_Click" Width="150" Margin="5" ToolTip="Click to refresh all data from the database"/>
 
-                    <!-- Employee Filter TextBox -->
+                    <!-- Employee Filter TextBox with Context Menu -->
                     <TextBox x:Name="EmployeeFilterTextBox"
-                             Text="{x:Static res:Strings.FilterByNamePlaceholder}"
+                             Text="Filter by Name"
                              Foreground="Gray" Margin="0,5"
                              GotFocus="TextBox_GotFocus"
                              LostFocus="TextBox_LostFocus"
-                             TextChanged="EmployeeFilterTextBox_TextChanged" />
+                             TextChanged="EmployeeFilterTextBox_TextChanged"
+                             ToolTip="Filter the employees by name">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Clear Filter" Click="ClearEmployeeFilter_Click" />
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
 
-                    <!-- Employee DataGrid -->
-                    <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="EmployeeDataGrid_SelectionChanged">
+                    <!-- Employee DataGrid with Context Menu for Actions -->
+                    <DataGrid x:Name="EmployeeDataGrid"
+                              AutoGenerateColumns="False"
+                              Height="200"
+                              Margin="0,0,0,10"
+                              ItemsSource="{Binding Employees}"
+                              SelectionChanged="EmployeeDataGrid_SelectionChanged"
+                              IsReadOnly="False">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add Employee" Click="AddEmployeeButton_Click"/>
+                                <MenuItem Header="Edit Employee" Click="EditEmployeeButton_Click"/>
+                                <MenuItem Header="Delete Employee" Click="DeleteEmployeeButton_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" Width="50" />
+                            <DataGridTextColumn Header="ID" Binding="{Binding EmployeeID}" Width="50" IsReadOnly="True" />
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                             <DataGridTextColumn Header="Contact Info" Binding="{Binding ContactInfo}" Width="*" />
                             <DataGridTextColumn Header="Salary" Binding="{Binding Salary}" Width="80" />
-                            <DataGridTextColumn Header="Department" Binding="{Binding DepartmentName}" Width="120" />
+                            <DataGridTextColumn Header="Department" Binding="{Binding DepartmentName}" Width="120" IsReadOnly="True"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <!-- Employee Input Fields -->
-                    <TextBox x:Name="EmployeeNameTextBox" Text="{x:Static res:Strings.EmployeeNamePlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
-                    <TextBox x:Name="EmployeeContactTextBox" Text="{x:Static res:Strings.ContactInfoPlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
-                    <TextBox x:Name="EmployeeSalaryTextBox" Text="{x:Static res:Strings.SalaryPlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    <!-- Employee Input Fields with Tooltips and Context Menus -->
+                    <TextBox x:Name="EmployeeNameTextBox" Text="Employee Name" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                             ToolTip="Enter the employee's name here.">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Clear Name Field" Click="ClearEmployeeName_Click"/>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
+                    <TextBox x:Name="EmployeeContactTextBox" Text="Contact Info" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                             ToolTip="Enter the contact information of the employee.">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Clear Contact Info Field" Click="ClearEmployeeContact_Click"/>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
+                    <TextBox x:Name="EmployeeSalaryTextBox" Text="Salary" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                             ToolTip="Enter the salary of the employee.">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Clear Salary Field" Click="ClearEmployeeSalary_Click"/>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
                     <ComboBox x:Name="EmployeeDepartmentComboBox" Width="200" Margin="0,5"
-                              DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentID" />
+                              DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentID"
+                              ToolTip="Select the department for the employee." />
 
                     <!-- Employee Actions -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0" Width="404">
-                        <Button Content="{x:Static res:Strings.AddEmployeeButtonText}" Click="AddEmployeeButton_Click" Width="120" Margin="5" />
-                        <Button Content="{x:Static res:Strings.EditEmployeeButtonText}" Click="EditEmployeeButton_Click" Width="120" Margin="5" />
-                        <Button Content="{x:Static res:Strings.DeleteEmployeeButtonText}" Click="DeleteEmployeeButton_Click" Width="120" Margin="5" />
+                        <Button Content="Add Employee" Click="AddEmployeeButton_Click" Width="120" Margin="5" ToolTip="Click to add a new employee." />
+                        <Button Content="Edit Employee" Click="EditEmployeeButton_Click" Width="120" Margin="5" ToolTip="Click to edit the selected employee." />
+                        <Button Content="Delete Employee" Click="DeleteEmployeeButton_Click" Width="120" Margin="5" ToolTip="Click to delete the selected employee." />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
 
             <!-- Department Tab -->
-            <TabItem Header="{x:Static res:Strings.DepartmentTabHeader}">
+            <TabItem Header="Departments" x:Name="DepartmentTab">
                 <StackPanel Margin="10">
                     <!-- Department Filter TextBox -->
-                    <TextBox x:Name="DepartmentFilterTextBox" Text="{x:Static res:Strings.FilterByDepartmentPlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" TextChanged="DepartmentFilterTextBox_TextChanged" />
+                    <TextBox x:Name="DepartmentFilterTextBox" 
+                             Text="Filter by Department" 
+                             Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" 
+                             LostFocus="TextBox_LostFocus" 
+                             TextChanged="DepartmentFilterTextBox_TextChanged"
+                             ToolTip="Filter departments by name." />
 
-                    <!-- Department DataGrid -->
-                    <DataGrid x:Name="DepartmentDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10">
+                    <!-- Department DataGrid with Context Menu for Actions -->
+                    <DataGrid x:Name="DepartmentDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" 
+                              ItemsSource="{Binding Departments}" IsReadOnly="False">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add Department" Click="AddDepartmentButton_Click"/>
+                                <MenuItem Header="Edit Department" Click="EditDepartmentButton_Click"/>
+                                <MenuItem Header="Delete Department" Click="DeleteDepartmentButton_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding DepartmentID}" Width="50" />
-                            <DataGridTextColumn Header="Name" Binding="{Binding DepartmentName}" Width="*" />
+                            <DataGridTextColumn Header="ID" Binding="{Binding DepartmentID}" Width="50" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding DepartmentName}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <!-- Department Input Field -->
-                    <TextBox x:Name="DepartmentNameTextBox" Text="{x:Static res:Strings.DepartmentNamePlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                    <TextBox x:Name="DepartmentNameTextBox" Text="Department Name" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                             ToolTip="Enter the department name here." />
 
                     <!-- Department Actions -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                        <Button Content="{x:Static res:Strings.AddDepartmentButtonText}" Click="AddDepartmentButton_Click" Width="140" Margin="5" />
-                        <Button Content="{x:Static res:Strings.EditDepartmentButtonText}" Click="EditDepartmentButton_Click" Width="140" Margin="5" />
-                        <Button Content="{x:Static res:Strings.DeleteDepartmentButtonText}" Click="DeleteDepartmentButton_Click" Width="140" Margin="5" />
+                        <Button Content="Add Department" Click="AddDepartmentButton_Click" Width="140" Margin="5" ToolTip="Click to add a new department." />
+                        <Button Content="Edit Department" Click="EditDepartmentButton_Click" Width="140" Margin="5" ToolTip="Click to edit the selected department." />
+                        <Button Content="Delete Department" Click="DeleteDepartmentButton_Click" Width="140" Margin="5" ToolTip="Click to delete the selected department." />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
 
             <!-- Absence Tab -->
-            <TabItem Header="{x:Static res:Strings.AbsenceTabHeader}">
+            <TabItem Header="Absences" x:Name="AbsenceTab">
                 <StackPanel Margin="10">
                     <!-- Absence Filter DatePicker -->
-                    <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" SelectedDateChanged="AbsenceFilterDatePicker_SelectedDateChanged" />
-                    <DataGrid x:Name="AbsenceDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="AbsenceDataGrid_SelectionChanged">
+                    <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" SelectedDateChanged="AbsenceFilterDatePicker_SelectedDateChanged"
+                                ToolTip="Select a date to filter absences." />
+
+                    <!-- Absence DataGrid with Context Menu for Actions -->
+                    <DataGrid x:Name="AbsenceDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="AbsenceDataGrid_SelectionChanged" IsReadOnly="False">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add Absence" Click="AddAbsenceButton_Click"/>
+                                <MenuItem Header="Edit Absence" Click="EditAbsenceButton_Click"/>
+                                <MenuItem Header="Delete Absence" Click="DeleteAbsenceButton_Click"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding AbsenceID}" Width="50" />
-                            <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100" />
-                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="60" />
+                            <DataGridTextColumn Header="ID" Binding="{Binding AbsenceID}" Width="50" IsReadOnly="True"/>
+                            <!-- Change Employee ID to Employee Name using the Employee navigation property -->
+                            <DataGridTextColumn Header="Employee Name" Binding="{Binding Employee.Name}" Width="150"/>
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="100"/>
                             <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
 
                     <!-- Absence Input Fields -->
                     <ComboBox x:Name="AbsenceEmployeeComboBox" Width="200" Margin="0,5"
-                              DisplayMemberPath="Name" SelectedValuePath="EmployeeID" SelectionChanged="AbsenceEmployeeComboBox_SelectionChanged" />
-                    <DatePicker x:Name="AbsenceDatePicker" Margin="0,5" />
-                    <TextBox x:Name="AbsenceReasonTextBox" Text="{x:Static res:Strings.ReasonForAbsencePlaceholder}" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                              DisplayMemberPath="Name" SelectedValuePath="EmployeeID" 
+                              ToolTip="Select the employee for the absence." />
+                    <DatePicker x:Name="AbsenceDatePicker" Margin="0,5" ToolTip="Select the date of the absence."/>
+                    <TextBox x:Name="AbsenceReasonTextBox" Text="Reason for Absence" Foreground="Gray" Margin="0,5"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                             ToolTip="Enter the reason for the absence." />
 
                     <!-- Absence Actions -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                        <Button Content="{x:Static res:Strings.AddAbsenceButtonText}" Click="AddAbsenceButton_Click" Width="120" Margin="5" />
-                        <Button Content="{x:Static res:Strings.EditAbsenceButtonText}" Click="EditAbsenceButton_Click" Width="120" Margin="5" />
-                        <Button Content="{x:Static res:Strings.DeleteAbsenceButtonText}" Click="DeleteAbsenceButton_Click" Width="120" Margin="5" />
+                        <Button Content="Add Absence" Click="AddAbsenceButton_Click" Width="120" Margin="5" ToolTip="Click to add a new absence record." />
+                        <Button Content="Edit Absence" Click="EditAbsenceButton_Click" Width="120" Margin="5" ToolTip="Click to edit the selected absence." />
+                        <Button Content="Delete Absence" Click="DeleteAbsenceButton_Click" Width="120" Margin="5" ToolTip="Click to delete the selected absence." />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

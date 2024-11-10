@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using personBeheerSysteem.Data;
 using persoonBeheerSysteem.Models;
+using persoonBeheerSysteem.ViewModels;
 
 namespace personBeheerSysteem
 {
@@ -14,18 +14,31 @@ namespace personBeheerSysteem
         private readonly EmployeeRepository _employeeRepo;
         private readonly DepartmentRepository _departmentRepo;
         private readonly AbsenceRepository _absenceRepo;
+        private EmployeeViewModel _employeeViewModel;
 
         public MainWindow()
         {
             InitializeComponent();
 
             var optionsBuilder = new DbContextOptionsBuilder<PersonenDbContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonenDbDev;Integrated Security=True;");
 
             var dbContext = new PersonenDbContext(optionsBuilder.Options);
             _employeeRepo = new EmployeeRepository(dbContext);
             _departmentRepo = new DepartmentRepository(dbContext);
             _absenceRepo = new AbsenceRepository(dbContext);
+
+            var employeeViewModel = new EmployeeViewModel(_employeeRepo);
+            var departmentViewModel = new DepartmentViewModel(_departmentRepo);
+            var absenceViewModel = new AbsenceViewModel(_absenceRepo);
+
+            // Set the DataContexts for each tab
+            EmployeeTab.DataContext = employeeViewModel;
+            DepartmentTab.DataContext = departmentViewModel;
+            AbsenceTab.DataContext = absenceViewModel;
+
+            DataContext = _employeeViewModel;
+
 
             Refresh(); // Initial load of data for all controls
         }
@@ -116,6 +129,27 @@ namespace personBeheerSysteem
             }
         }
 
+        // Context Menu Clear Handlers
+        private void ClearEmployeeName_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeNameTextBox.Clear();
+        }
+
+        private void ClearEmployeeContact_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeContactTextBox.Clear();
+        }
+
+        private void ClearEmployeeFilter_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeFilterTextBox.Clear();
+        }
+
+        private void ClearEmployeeSalary_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeSalaryTextBox.Clear();
+        }
+
         // Employee CRUD methods
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -166,14 +200,18 @@ namespace personBeheerSysteem
         {
             if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
             {
-                try
+                var result = MessageBox.Show("Are you sure you want to delete this employee?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
-                    _employeeRepo.DeleteEmployee(selectedEmployee.EmployeeID);
-                    Refresh();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting employee: {ex.Message}");
+                    try
+                    {
+                        _employeeRepo.DeleteEmployee(selectedEmployee.EmployeeID);
+                        Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting employee: {ex.Message}");
+                    }
                 }
             }
             else
@@ -225,14 +263,18 @@ namespace personBeheerSysteem
         {
             if (DepartmentDataGrid.SelectedItem is Department selectedDepartment)
             {
-                try
+                var result = MessageBox.Show("Are you sure you want to delete this department?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
-                    _departmentRepo.DeleteDepartment(selectedDepartment.DepartmentID);
-                    Refresh();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting department: {ex.Message}");
+                    try
+                    {
+                        _departmentRepo.DeleteDepartment(selectedDepartment.DepartmentID);
+                        Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting department: {ex.Message}");
+                    }
                 }
             }
             else
@@ -296,14 +338,18 @@ namespace personBeheerSysteem
         {
             if (AbsenceDataGrid.SelectedItem is Absence selectedAbsence)
             {
-                try
+                var result = MessageBox.Show("Are you sure you want to delete this absence?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
                 {
-                    _absenceRepo.DeleteAbsence(selectedAbsence.AbsenceID);
-                    Refresh();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting absence: {ex.Message}");
+                    try
+                    {
+                        _absenceRepo.DeleteAbsence(selectedAbsence.AbsenceID);
+                        Refresh();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting absence: {ex.Message}");
+                    }
                 }
             }
             else
