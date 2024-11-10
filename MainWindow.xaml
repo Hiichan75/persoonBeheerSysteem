@@ -90,6 +90,17 @@
                         <Button Content="Edit Employee" Click="EditEmployeeButton_Click" Width="120" Margin="5" ToolTip="Click to edit the selected employee." />
                         <Button Content="Delete Employee" Click="DeleteEmployeeButton_Click" Width="120" Margin="5" ToolTip="Click to delete the selected employee." />
                     </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-15,0,0" Width="113" Height="39">
+                        <Button x:Name="LogoutButton"
+        Content="Logout"
+        Width="83"
+        Height="34"
+        Background="Red"
+        Foreground="White"
+        FontWeight="Bold"
+        Click="LogoutButton_Click"/>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
 
@@ -104,7 +115,7 @@
                              LostFocus="TextBox_LostFocus" 
                              TextChanged="DepartmentFilterTextBox_TextChanged"
                              ToolTip="Filter departments by name."/>
-                 
+
 
 
                     <!-- Department DataGrid with Context Menu for Actions -->

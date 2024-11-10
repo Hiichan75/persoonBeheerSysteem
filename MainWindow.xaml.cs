@@ -6,6 +6,7 @@ using System.Windows.Media;
 using personBeheerSysteem.Data;
 using persoonBeheerSysteem.Models;
 using persoonBeheerSysteem.ViewModels;
+using persoonBeheerSysteem;
 
 namespace personBeheerSysteem
 {
@@ -399,6 +400,19 @@ namespace personBeheerSysteem
                 MessageBox.Show("Please select an absence to delete.");
             }
         }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Close MainWindow and navigate back to the login screen
+                var loginWindow = new LoginWindow();
+                loginWindow.Show();
+                this.Close();
+            }
+        }
+
 
         // Selection change events, if needed
         private void AbsenceEmployeeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { }

@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using persoonBeheerSysteem.Models;
 using System;
 
 namespace personBeheerSysteem.Data
 {
-    public class PersonenDbContext : DbContext
+    public class PersonenDbContext : IdentityDbContext<IdentityUser> // Inherit from IdentityDbContext
     {
         public PersonenDbContext(DbContextOptions<PersonenDbContext> options) : base(options) { }
 
@@ -16,13 +18,15 @@ namespace personBeheerSysteem.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonenDbDev;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;",
-                                             sqlOptions => sqlOptions.EnableRetryOnFailure()); // Enables retry on transient failures
+                optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PersonenDbDev;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;",
+                                             sqlOptions => sqlOptions.EnableRetryOnFailure());
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // Important to include for Identity tables
+
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.Department)
                 .WithMany(d => d.Employees)
@@ -33,12 +37,14 @@ namespace personBeheerSysteem.Data
                 .WithMany(e => e.Absences)
                 .HasForeignKey(a => a.EmployeeID);
 
-            // Specify precision for Salary column to avoid truncation
+            // Example of specifying table name explicitly (optional)
+            modelBuilder.Entity<Absence>().ToTable("Absences");
+
             modelBuilder.Entity<Employee>()
                 .Property(e => e.Salary)
                 .HasColumnType("decimal(18,2)");
 
-            // Seed Departments
+            // Seed data
             modelBuilder.Entity<Department>().HasData(
                 new Department { DepartmentID = 1, DepartmentName = "HR" },
                 new Department { DepartmentID = 2, DepartmentName = "Finance" },
@@ -52,7 +58,7 @@ namespace personBeheerSysteem.Data
                 new Department { DepartmentID = 10, DepartmentName = "Legal" }
             );
 
-            // Seeding Employees
+            // Seed Employees
             modelBuilder.Entity<Employee>().HasData(
                 new Employee { EmployeeID = 1, Name = "John Doe", ContactInfo = "john.doe@example.com", Salary = 50000, DepartmentID = 1 },
                 new Employee { EmployeeID = 2, Name = "Jane Smith", ContactInfo = "jane.smith@example.com", Salary = 60000, DepartmentID = 2 },
@@ -66,7 +72,7 @@ namespace personBeheerSysteem.Data
                 new Employee { EmployeeID = 10, Name = "Isabella Gold", ContactInfo = "isabella.gold@example.com", Salary = 58000, DepartmentID = 9 }
             );
 
-            // Seeding Absences
+            // Seed Absences
             modelBuilder.Entity<Absence>().HasData(
                 new Absence { AbsenceID = 1, EmployeeID = 1, Date = DateTime.Now.AddDays(-7), Reason = "Sick Leave" },
                 new Absence { AbsenceID = 2, EmployeeID = 2, Date = DateTime.Now.AddDays(-5), Reason = "Vacation" },
