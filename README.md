@@ -1,4 +1,4 @@
-### HR Management System
+# HR Management System
 
 ## Project Overview
 
