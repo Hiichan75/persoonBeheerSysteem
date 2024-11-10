@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using personBeheerSysteem.Data;
-using personBeheerSysteem.Models;
-using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using persoonBeheerSysteem;
-
+using personBeheerSysteem.Data;
+using persoonBeheerSysteem.Models;
 
 namespace personBeheerSysteem
 {
@@ -20,7 +18,7 @@ namespace personBeheerSysteem
         public MainWindow()
         {
             InitializeComponent();
-            
+
             var optionsBuilder = new DbContextOptionsBuilder<PersonenDbContext>();
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;");
 
@@ -29,52 +27,18 @@ namespace personBeheerSysteem
             _departmentRepo = new DepartmentRepository(dbContext);
             _absenceRepo = new AbsenceRepository(dbContext);
 
+            Refresh(); // Initial load of data for all controls
+        }
+
+        // Method to refresh data for all ComboBoxes and DataGrids
+        private void Refresh()
+        {
             LoadData();
             LoadComboBoxData();
         }
 
-
-        private void EmployeeFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_employeeRepo == null) return; // Ensure _employeeRepo is initialized
-
-            var filterText = EmployeeFilterTextBox.Text.ToLower();
-            EmployeeDataGrid.ItemsSource = _employeeRepo.GetAllEmployees()
-                .Where(emp => emp.Name.ToLower().Contains(filterText)).ToList();
-        }
-
-
-        private void DepartmentFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (_departmentRepo == null) return; // Ensure _departmentRepo is initialized
-
-            var filterText = DepartmentFilterTextBox.Text.ToLower();
-            DepartmentDataGrid.ItemsSource = _departmentRepo.GetAllDepartments()
-                .Where(dept => dept.DepartmentName.ToLower().Contains(filterText)).ToList();
-        }
-
-        private void AbsenceFilterDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_absenceRepo == null) return; // Ensure _absenceRepo is initialized
-
-            var selectedDate = AbsenceFilterDatePicker.SelectedDate;
-            if (selectedDate.HasValue)
-            {
-                AbsenceDataGrid.ItemsSource = _absenceRepo.GetAllAbsences()
-                    .Where(abs => abs.Date.Date == selectedDate.Value.Date).ToList();
-            }
-            else
-            {
-                AbsenceDataGrid.ItemsSource = _absenceRepo.GetAllAbsences();
-            }
-        }
-
-
-
-
         private void LoadComboBoxData()
         {
-            // Populate the EmployeeDepartmentComboBox with a list of departments
             EmployeeDepartmentComboBox.ItemsSource = _departmentRepo.GetAllDepartments();
             AbsenceEmployeeComboBox.ItemsSource = _employeeRepo.GetAllEmployees();
         }
@@ -93,6 +57,41 @@ namespace personBeheerSysteem
             }
         }
 
+        // Single Refresh button event handler for all data
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh();
+        }
+
+        // Filter methods for employees, departments, and absences
+        private void EmployeeFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_employeeRepo == null) return;
+
+            var filterText = EmployeeFilterTextBox.Text.ToLower();
+            EmployeeDataGrid.ItemsSource = _employeeRepo.GetAllEmployees()
+                .Where(emp => emp.Name.ToLower().Contains(filterText)).ToList();
+        }
+
+        private void DepartmentFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_departmentRepo == null) return;
+
+            var filterText = DepartmentFilterTextBox.Text.ToLower();
+            DepartmentDataGrid.ItemsSource = _departmentRepo.GetAllDepartments()
+                .Where(dept => dept.DepartmentName.ToLower().Contains(filterText)).ToList();
+        }
+
+        private void AbsenceFilterDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_absenceRepo == null) return;
+
+            var selectedDate = AbsenceFilterDatePicker.SelectedDate;
+            AbsenceDataGrid.ItemsSource = selectedDate.HasValue
+                ? _absenceRepo.GetAllAbsences().Where(abs => abs.Date.Date == selectedDate.Value.Date).ToList()
+                : _absenceRepo.GetAllAbsences();
+        }
+
         // Placeholder simulation for TextBox controls
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -109,7 +108,6 @@ namespace personBeheerSysteem
             {
                 textBox.Foreground = Brushes.Gray;
 
-                // Set the placeholder text for each TextBox
                 if (textBox == EmployeeNameTextBox) textBox.Text = "Employee Name";
                 if (textBox == EmployeeContactTextBox) textBox.Text = "Contact Info";
                 if (textBox == EmployeeSalaryTextBox) textBox.Text = "Salary";
@@ -121,21 +119,21 @@ namespace personBeheerSysteem
         // Employee CRUD methods
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (decimal.TryParse(EmployeeSalaryTextBox.Text, out decimal salary) && EmployeeDepartmentComboBox.SelectedValue != null)
             {
                 var newEmployee = new Employee
                 {
                     Name = EmployeeNameTextBox.Text,
                     ContactInfo = EmployeeContactTextBox.Text,
-                    Salary = decimal.Parse(EmployeeSalaryTextBox.Text),
+                    Salary = salary,
                     DepartmentID = (int)EmployeeDepartmentComboBox.SelectedValue
                 };
                 _employeeRepo.AddEmployee(newEmployee);
-                LoadData();
+                Refresh();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"Error adding employee: {ex.Message}");
+                MessageBox.Show("Invalid input. Please check the salary and department fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -151,7 +149,7 @@ namespace personBeheerSysteem
                     selectedEmployee.DepartmentID = (int)EmployeeDepartmentComboBox.SelectedValue;
 
                     _employeeRepo.UpdateEmployee(selectedEmployee);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -171,7 +169,7 @@ namespace personBeheerSysteem
                 try
                 {
                     _employeeRepo.DeleteEmployee(selectedEmployee.EmployeeID);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -194,7 +192,7 @@ namespace personBeheerSysteem
                     DepartmentName = DepartmentNameTextBox.Text
                 };
                 _departmentRepo.AddDepartment(newDepartment);
-                LoadData();
+                Refresh();
             }
             catch (Exception ex)
             {
@@ -210,7 +208,7 @@ namespace personBeheerSysteem
                 {
                     selectedDepartment.DepartmentName = DepartmentNameTextBox.Text;
                     _departmentRepo.UpdateDepartment(selectedDepartment);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +228,7 @@ namespace personBeheerSysteem
                 try
                 {
                     _departmentRepo.DeleteDepartment(selectedDepartment.DepartmentID);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -248,18 +246,25 @@ namespace personBeheerSysteem
         {
             try
             {
+                if (AbsenceEmployeeComboBox.SelectedValue == null || AbsenceDatePicker.SelectedDate == null || string.IsNullOrWhiteSpace(AbsenceReasonTextBox.Text))
+                {
+                    MessageBox.Show("Please complete all fields for the absence record.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 var newAbsence = new Absence
                 {
                     EmployeeID = (int)AbsenceEmployeeComboBox.SelectedValue,
-                    Date = AbsenceDatePicker.SelectedDate.GetValueOrDefault(),
+                    Date = AbsenceDatePicker.SelectedDate.Value,
                     Reason = AbsenceReasonTextBox.Text
                 };
+
                 _absenceRepo.AddAbsence(newAbsence);
-                LoadData();
+                Refresh();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding absence: {ex.Message}");
+                MessageBox.Show($"Error adding absence: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -274,7 +279,7 @@ namespace personBeheerSysteem
                     selectedAbsence.Reason = AbsenceReasonTextBox.Text;
 
                     _absenceRepo.UpdateAbsence(selectedAbsence);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -294,7 +299,7 @@ namespace personBeheerSysteem
                 try
                 {
                     _absenceRepo.DeleteAbsence(selectedAbsence.AbsenceID);
-                    LoadData();
+                    Refresh();
                 }
                 catch (Exception ex)
                 {
@@ -307,19 +312,9 @@ namespace personBeheerSysteem
             }
         }
 
-        private void AbsenceEmployeeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // You can add any logic here if needed for when the selection changes
-        }
-
-        private void EmployeeDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void AbsenceDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        // Selection change events, if needed
+        private void AbsenceEmployeeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+        private void EmployeeDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
+        private void AbsenceDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
     }
 }

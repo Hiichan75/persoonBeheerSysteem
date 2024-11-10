@@ -9,6 +9,9 @@
             <!-- Employee Tab -->
             <TabItem Header="{x:Static res:Strings.EmployeeTabHeader}">
                 <StackPanel Margin="10">
+                    <!-- Single Refresh Button for All Data -->
+                    <Button Content="Refresh" Click="RefreshButton_Click" Width="150" Margin="5" />
+
                     <!-- Employee Filter TextBox -->
                     <TextBox x:Name="EmployeeFilterTextBox"
                              Text="{x:Static res:Strings.FilterByNamePlaceholder}"
@@ -80,13 +83,11 @@
                 <StackPanel Margin="10">
                     <!-- Absence Filter DatePicker -->
                     <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" SelectedDateChanged="AbsenceFilterDatePicker_SelectedDateChanged" />
-
-                    <!-- Absence DataGrid -->
                     <DataGrid x:Name="AbsenceDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="AbsenceDataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding AbsenceID}" Width="50" />
                             <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100" />
-                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="100" />
+                            <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="60" />
                             <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>

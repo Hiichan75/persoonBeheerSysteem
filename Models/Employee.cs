@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace personBeheerSysteem.Models
+namespace persoonBeheerSysteem.Models
 {
     public class Employee
     {

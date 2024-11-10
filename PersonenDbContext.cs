@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using personBeheerSysteem.Models;
+using persoonBeheerSysteem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

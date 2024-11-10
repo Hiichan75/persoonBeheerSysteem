@@ -1,5 +1,5 @@
 ﻿using personBeheerSysteem.Data;
-using personBeheerSysteem.Models;
+using persoonBeheerSysteem.Models;
 using System.Collections.Generic;
 using System.Linq;
 
