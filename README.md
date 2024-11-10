@@ -4,7 +4,7 @@
 
 The HR Management System is a WPF-based desktop application designed to help manage employee information, departments, and employee absences in an efficient manner. It provides capabilities for viewing, adding, editing, and deleting employee data, department details, and absence records.
 
-## Features
+### Features
 
 Manage Employee Records (Add, Edit, Delete Employees)
 
