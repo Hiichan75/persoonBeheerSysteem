@@ -1,6 +1,6 @@
 ## Sources: CHATGPT 4
 
-adding a recording of Chat history link soon, can't create history because if images are inserted it's not possible
+
 
 ## Use of AI Tools
 
