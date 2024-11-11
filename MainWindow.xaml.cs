@@ -29,6 +29,8 @@ namespace personBeheerSysteem
             _departmentRepo = new DepartmentRepository(dbContext);
             _absenceRepo = new AbsenceRepository(dbContext);
 
+            // VIEWMODELS
+
             var employeeViewModel = new EmployeeViewModel(_employeeRepo);
             var departmentViewModel = new DepartmentViewModel(_departmentRepo);
             var absenceViewModel = new AbsenceViewModel(_absenceRepo);
@@ -79,9 +81,9 @@ namespace personBeheerSysteem
         {
             if (_employeeRepo == null) return;
 
-            var filterText = EmployeeFilterTextBox.Text.ToLower();
+            var filterText = EmployeeFilterTextBox.Text.ToLower(); //LINQ for filtering employees
             EmployeeDataGrid.ItemsSource = _employeeRepo.GetAllEmployees()
-                .Where(emp => emp.Name.ToLower().Contains(filterText)).ToList();
+                .Where(emp => emp.Name.ToLower().Contains(filterText)).ToList(); // lambda used within a LINQ (where method to filter employees whose names contain the text entered by the user
         }
 
         private void DepartmentFilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -93,15 +95,30 @@ namespace personBeheerSysteem
                 .Where(dept => dept.DepartmentName.ToLower().Contains(filterText)).ToList();
         }
 
-        private void AbsenceFilterDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        
+
+        private void AbsenceFilter_TextChanged(object sender, EventArgs e)
         {
             if (_absenceRepo == null) return;
 
             var selectedDate = AbsenceFilterDatePicker.SelectedDate;
-            AbsenceDataGrid.ItemsSource = selectedDate.HasValue
-                ? _absenceRepo.GetAllAbsences().Where(abs => abs.Date.Date == selectedDate.Value.Date).ToList()
-                : _absenceRepo.GetAllAbsences();
+            var filterName = AbsenceFilterNameTextBox.Text.ToLower();
+
+            var absences = _absenceRepo.GetAllAbsences();
+
+            if (selectedDate.HasValue)
+            {
+                absences = absences.Where(abs => abs.Date.Date == selectedDate.Value.Date).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(filterName) && filterName != "filter by employee name")
+            {
+                absences = absences.Where(abs => abs.Employee.Name.ToLower().Contains(filterName)).ToList();
+            }
+
+            AbsenceDataGrid.ItemsSource = absences;
         }
+
 
         // Placeholder simulation for TextBox controls
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)

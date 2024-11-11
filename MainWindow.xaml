@@ -15,12 +15,12 @@
 
                     <!-- Employee Filter TextBox with Context Menu -->
                     <TextBox x:Name="EmployeeFilterTextBox"
-                             Text="Filter by Name"
-                             Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus"
-                             LostFocus="TextBox_LostFocus"
-                             TextChanged="EmployeeFilterTextBox_TextChanged"
-                             ToolTip="Filter the employees by name">
+                         Text="Filter by Employee Name"
+                         Foreground="Gray" Margin="0,5"
+                         GotFocus="TextBox_GotFocus"
+                         LostFocus="TextBox_LostFocus"
+                         TextChanged="EmployeeFilterTextBox_TextChanged"
+                         ToolTip="Filter the employees by name">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear Filter" Click="ClearEmployeeFilter_Click" />
@@ -30,12 +30,12 @@
 
                     <!-- Employee DataGrid with Context Menu for Actions -->
                     <DataGrid x:Name="EmployeeDataGrid"
-                              AutoGenerateColumns="False"
-                              Height="200"
-                              Margin="0,0,0,10"
-                              ItemsSource="{Binding Employees}"
-                              SelectionChanged="EmployeeDataGrid_SelectionChanged"
-                              IsReadOnly="False">
+                          AutoGenerateColumns="False"
+                          Height="200"
+                          Margin="0,0,0,10"
+                          ItemsSource="{Binding Employees}"
+                          SelectionChanged="EmployeeDataGrid_SelectionChanged"
+                          IsReadOnly="False">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add Employee" Click="AddEmployeeButton_Click"/>
@@ -54,8 +54,8 @@
 
                     <!-- Employee Input Fields with Tooltips and Context Menus -->
                     <TextBox x:Name="EmployeeNameTextBox" Text="Employee Name" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             ToolTip="Enter the employee's name here.">
+                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                         ToolTip="Enter the employee's name here.">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear Name Field" Click="ClearEmployeeName_Click"/>
@@ -63,8 +63,8 @@
                         </TextBox.ContextMenu>
                     </TextBox>
                     <TextBox x:Name="EmployeeContactTextBox" Text="Contact Info" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             ToolTip="Enter the contact information of the employee.">
+                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                         ToolTip="Enter the contact information of the employee.">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear Contact Info Field" Click="ClearEmployeeContact_Click"/>
@@ -72,17 +72,24 @@
                         </TextBox.ContextMenu>
                     </TextBox>
                     <TextBox x:Name="EmployeeSalaryTextBox" Text="Salary" Foreground="Gray" Margin="0,5"
-                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
-                             ToolTip="Enter the salary of the employee.">
+                         GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
+                         ToolTip="Enter the salary of the employee.">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear Salary Field" Click="ClearEmployeeSalary_Click"/>
                             </ContextMenu>
                         </TextBox.ContextMenu>
                     </TextBox>
-                    <ComboBox x:Name="EmployeeDepartmentComboBox" Width="200" Margin="0,5"
-                              DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentID"
-                              ToolTip="Select the department for the employee." />
+
+                    <!-- Updated EmployeeDepartmentComboBox -->
+                    <ComboBox x:Name="EmployeeDepartmentComboBox"
+                          Width="200"
+                          Margin="0,5"
+                          DisplayMemberPath="DepartmentName"
+                          SelectedValuePath="DepartmentID"
+                          IsEditable="True"
+                          IsTextSearchEnabled="True"
+                          ToolTip="Select or search the department for the employee." />
 
                     <!-- Employee Actions -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0" Width="404">
@@ -93,13 +100,13 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-15,0,0" Width="113" Height="39">
                         <Button x:Name="LogoutButton"
-        Content="Logout"
-        Width="83"
-        Height="34"
-        Background="Red"
-        Foreground="White"
-        FontWeight="Bold"
-        Click="LogoutButton_Click"/>
+                        Content="Logout"
+                        Width="83"
+                        Height="34"
+                        Background="Red"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Click="LogoutButton_Click"/>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -151,9 +158,21 @@
             <!-- Absence Tab -->
             <TabItem Header="Absences" x:Name="AbsenceTab">
                 <StackPanel Margin="10">
+                    <!-- Absence Filter Name TextBox -->
+                    <TextBox x:Name="AbsenceFilterNameTextBox"  
+             Text="Filter by Employee Name" 
+             Foreground="Gray" Margin="0,5"
+             GotFocus="TextBox_GotFocus" 
+             LostFocus="TextBox_LostFocus" 
+             TextChanged="AbsenceFilter_TextChanged"
+             ToolTip="Filter absences by employee name."/>
+                    
+                    
+
                     <!-- Absence Filter DatePicker -->
-                    <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" SelectedDateChanged="AbsenceFilterDatePicker_SelectedDateChanged"
-                                ToolTip="Select a date to filter absences." />
+                    <DatePicker x:Name="AbsenceFilterDatePicker" Margin="0,5" 
+                SelectedDateChanged="AbsenceFilter_TextChanged"
+                ToolTip="Select a date to filter absences." />
 
                     <!-- Absence DataGrid with Context Menu for Actions -->
                     <DataGrid x:Name="AbsenceDataGrid" AutoGenerateColumns="False" Height="200" Margin="0,0,0,10" SelectionChanged="AbsenceDataGrid_SelectionChanged" IsReadOnly="False">
@@ -175,8 +194,12 @@
 
                     <!-- Absence Input Fields -->
                     <ComboBox x:Name="AbsenceEmployeeComboBox" Width="200" Margin="0,5"
-                              DisplayMemberPath="Name" SelectedValuePath="EmployeeID" 
-                              ToolTip="Select the employee for the absence." />
+          ItemsSource="{Binding Employees}"
+          DisplayMemberPath="Name"
+          SelectedValuePath="EmployeeID"
+          IsEditable="True"
+          IsTextSearchEnabled="True"
+          ToolTip="Search and select the employee for the absence." />
                     <DatePicker x:Name="AbsenceDatePicker" Margin="0,5" ToolTip="Select the date of the absence."/>
                     <TextBox x:Name="AbsenceReasonTextBox" Text="Reason for Absence" Foreground="Gray" Margin="0,5"
                              GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"

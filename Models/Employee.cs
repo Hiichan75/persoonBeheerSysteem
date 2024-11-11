@@ -16,9 +16,10 @@ namespace persoonBeheerSysteem.Models
         public string Name { get; set; }
         public string ContactInfo { get; set; }
         public decimal Salary { get; set; }
-        public int DepartmentID { get; set; }
+        public int DepartmentID { get; set; } // Foreign key
 
-        public Department Department { get; set; }
+        public Department Department { get; set; } // Navigation property
+        
         public List<Absence> Absences { get; set; }
 
         public string DepartmentName => Department?.DepartmentName ?? "Unknown";
