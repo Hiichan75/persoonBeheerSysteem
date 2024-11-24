@@ -8,8 +8,8 @@ namespace persoonBeheerSysteem.Models
 {
     public class Absence
     {
-        public int AbsenceID { get; set; }
-        public int EmployeeID { get; set; }
+        public int AbsenceID { get; set; } //PK
+        public int EmployeeID { get; set; } // FOREIGN KEY -> employee
         public DateTime Date { get; set; }
         public string Reason { get; set; }
 

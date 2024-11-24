@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace persoonBeheerSysteem.ViewModels
-{
-    public class AbsenceViewModel : INotifyPropertyChanged
+{                                           //View = businesslogica between the model and UI (access to data from models and gets events to update the UI)
+    public class AbsenceViewModel : INotifyPropertyChanged //zorgen dat UI informed is
     {
         private readonly AbsenceRepository _absenceRepository;
-        private ObservableCollection<Absence>? _absences;
+        private ObservableCollection<Absence>? _absences; //automatische updates -> UI
 
         public AbsenceViewModel(AbsenceRepository absenceRepository)
         {

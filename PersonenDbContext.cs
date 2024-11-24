@@ -37,8 +37,7 @@ namespace personBeheerSysteem.Data
                 .WithMany(e => e.Absences)
                 .HasForeignKey(a => a.EmployeeID);
 
-            // Example of specifying table name explicitly (optional)
-            modelBuilder.Entity<Absence>().ToTable("Absences");
+          
 
             modelBuilder.Entity<Employee>()
                 .Property(e => e.Salary)

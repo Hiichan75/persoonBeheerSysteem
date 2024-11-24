@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace personBeheerSysteem
 {
-    public class PersonenDbContextFactory : IDesignTimeDbContextFactory<PersonenDbContext>
+    public class PersonenDbContextFactory : IDesignTimeDbContextFactory<PersonenDbContext> // om migrations te kunnen uitvoeren
     {
         public PersonenDbContext CreateDbContext(string[] args)
         {

@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace persoonBeheerSysteem.ViewModels
 {
-    public class DepartmentViewModel : INotifyPropertyChanged
+    public class DepartmentViewModel : INotifyPropertyChanged //zorgen dat UI informed is
     {
         private readonly DepartmentRepository _departmentRepository;
-        private ObservableCollection<Department>? _departments;
+        private ObservableCollection<Department>? _departments; //automatische updates -> UI
 
         public DepartmentViewModel(DepartmentRepository departmentRepository)
         {

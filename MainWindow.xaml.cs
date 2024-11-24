@@ -166,7 +166,7 @@ namespace personBeheerSysteem
         }
 
         // Employee CRUD methods
-        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
+        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e) //CREATE
         {
             if (decimal.TryParse(EmployeeSalaryTextBox.Text, out decimal salary) && EmployeeDepartmentComboBox.SelectedValue != null)
             {
@@ -186,9 +186,9 @@ namespace personBeheerSysteem
             }
         }
 
-        private void EditEmployeeButton_Click(object sender, RoutedEventArgs e)
+        private void EditEmployeeButton_Click(object sender, RoutedEventArgs e) //CRUD //UPDATE
         {
-            if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
+            if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee) //READ
             {
                 try
                 {
@@ -218,7 +218,7 @@ namespace personBeheerSysteem
                         return;
                     }
 
-                    selectedEmployee.Name = EmployeeNameTextBox.Text;
+                    selectedEmployee.Name = EmployeeNameTextBox.Text; 
                     selectedEmployee.ContactInfo = EmployeeContactTextBox.Text;
                     selectedEmployee.Salary = salary;
                     selectedEmployee.DepartmentID = (int)EmployeeDepartmentComboBox.SelectedValue;
@@ -238,7 +238,7 @@ namespace personBeheerSysteem
         }
 
 
-        private void DeleteEmployeeButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteEmployeeButton_Click(object sender, RoutedEventArgs e) //DELETE
         {
             if (EmployeeDataGrid.SelectedItem is Employee selectedEmployee)
             {

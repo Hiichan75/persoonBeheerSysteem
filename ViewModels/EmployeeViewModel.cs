@@ -6,10 +6,10 @@ using persoonBeheerSysteem.Models;
 
 namespace persoonBeheerSysteem.ViewModels
 {
-    public class EmployeeViewModel : INotifyPropertyChanged
+    public class EmployeeViewModel : INotifyPropertyChanged //zorgen dat UI informed is
     {
         private readonly EmployeeRepository _employeeRepository;
-        private ObservableCollection<Employee>? _employees;
+        private ObservableCollection<Employee>? _employees; //automatische updates -> UI
 
         public EmployeeViewModel(EmployeeRepository employeeRepository)
         {

@@ -9,7 +9,7 @@ namespace persoonBeheerSysteem.Models
 {
     public class Employee
     {
-        public int EmployeeID { get; set; }
+        public int EmployeeID { get; set; } //PK
 
         [Required]
         [StringLength(100)]
@@ -18,7 +18,7 @@ namespace persoonBeheerSysteem.Models
         public decimal Salary { get; set; }
         public int DepartmentID { get; set; } // Foreign key
 
-        public Department Department { get; set; } // Navigation property
+        public Department Department { get; set; }
         
         public List<Absence> Absences { get; set; }
 
